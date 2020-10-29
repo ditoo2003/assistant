@@ -1,3 +1,6 @@
 Djiango
 requests
 pyyaml
+python3-devel
+mysqlclient
+pycrypto
