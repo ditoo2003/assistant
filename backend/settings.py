@@ -28,6 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -40,7 +41,7 @@ INSTALLED_APPS = [
 
     # 新应用
     'apis.apps.ApisConfig',
-    'authorization.apps.AuthorizationConfig'
+    'authorization.apps.AuthorizationConfig',
 
     # 第三方应用
     'django_crontab'
@@ -76,8 +77,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
+
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
+
 
 
 '''
@@ -94,10 +97,11 @@ DATABASES = {
         'NAME': 'backend',
         'USER': 'root',
         'PASSWORD': 'bc0ecc96a6d8f7e4',
-        'HOST': 'localhost',
+        'HOST': '127.0.0.1',
         'PORT': '3306'
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -117,18 +121,20 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
-LANGUAGE_CODE = 'zh-hans'
+LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Asia/Shanghai'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
 USE_L10N = True
 
 USE_TZ = True
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
@@ -142,7 +148,7 @@ IMAGES_DIR = os.path.join(RESOURCES_DIR, 'images')
 WX_APP_SECRET = 'c1d5c56f6c9443a6c7b4e5e759d04276'
 
 # session超时时间
-SESSION_COOKIE_AGE = 60 * 60 * 24 * 1
+SESSION_COOKIE_AGE = 60*60*24*1
 
 # logging日志配置
 LOG_DIR = os.path.join(BASE_DIR, 'log')
@@ -152,72 +158,52 @@ if not os.path.exists(LOG_DIR):
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
-    'formatters': {  # 日志格式
-        'standard': {
+    'formatters': {# 日志格式
+       'standard': {
             'format': '%(asctime)s [%(threadName)s:%(thread)d] '
                       '[%(pathname)s:%(funcName)s:%(lineno)d] [%(levelname)s]- %(message)s'}
     },
-    'filters': {  # 过滤器
-        'test': {
+    'filters': {# 过滤器
+        'test':{
             '()': 'ops.TestFilter'
         }
     },
-    'handlers': {  # 处理器
+    'handlers': {# 处理器
         'null': {
             'level': 'DEBUG',
             'class': 'logging.NullHandler',
         },
-        'error_handler': {  # error内容输出到另外的文件
-            'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(LOG_DIR, 'error.log'),  # 日志输出文件
-            'maxBytes': 1024 * 1024 * 5,  # 文件大小
-            'backupCount': 5,  # 备份份数
-            'formatter': 'standard',  # 使用哪种formatters日志格式
+        'error_handler': {# error内容输出到另外的文件
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(LOG_DIR,'error.log'),#日志输出文件
+            'maxBytes':1024*1024*5,#文件大小
+            'backupCount': 5,#备份份数
+            'formatter':'standard',#使用哪种formatters日志格式
             'encoding': 'utf8',
         },
-        'file_handler': {  # 记录到日志文件(需要创建对应的目录，否则会出错)
-            'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(LOG_DIR, 'service.log'),  # 日志输出文件
-            'maxBytes': 1024 * 1024 * 5,  # 文件大小
-            'backupCount': 5,  # 备份份数
-            'formatter': 'standard',  # 使用哪种formatters日志格式
-            'encoding': 'utf8',
+        'file_handler': {# 记录到日志文件(需要创建对应的目录，否则会出错)
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(LOG_DIR,'service.log'),# 日志输出文件
+            'maxBytes':1024*1024*5,#文件大小
+            'backupCount': 5,#备份份数
+            'formatter':'standard',#使用哪种formatters日志格式
+                'encoding': 'utf8',
         },
-        'console_handler': {  # 输出到控制台
+        'console_handler':{# 输出到控制台
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
             'formatter': 'standard',
         },
     },
-    'loggers': {  # logging管理器
+    'loggers': {# logging管理器
         'django': {
             # 'handlers': ['console_handler', 'file_handler', 'error_handler'],
             'handlers': ['console_handler', 'file_handler'],
             'filters': ['test'],
-            'level': 'INFO'
+            'level': 'DEBUG'
         }
-    }
-}
-
-CACHES = {
-    'default': {
-        # 1. MemCache
-        # 'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        # 'LOCATION': '127.0.0.1:11211',
-
-        # 2. DB Cache
-        # 'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-        # 'LOCATION': 'my_cache_table',
-
-        # 3. Filesystem Cache
-        # 'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        # 'LOCATION': '/var/tmp/django_cache',
-
-        # 4. Local Mem Cache
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'backend-cache'
     }
 }
 

@@ -5,11 +5,10 @@ import json
 
 from django.http import JsonResponse
 from django.views import View
-from utils.auth import already_authorized, c2s
 from utils.response import wrap_json_response, ReturnCode, CommonResponseMixin
+from utils.auth import already_authorized, c2s
 
 from .models import User
-
 
 def test_session(request):
     request.session['message'] = 'Test Django Session OK!'

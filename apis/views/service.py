@@ -64,7 +64,7 @@ def constellation(request):
             result = thirdparty.juhe.constellation(c)
             timeout = timeutil.get_day_left_in_second()
             cache.set(c, result, timeout)
-            logger.info("set cache. key=[%s], value=[%s], timeout=[%d]" %(c, result, timeout))
+            logger.info('set cache. key=[%s], value=[%s], timeout=[%d]' % (c, result ,timeout))
         data.append(result)
 
     response = CommonResponseMixin.wrap_json_response(data=data, code=ReturnCode.SUCCESS)
