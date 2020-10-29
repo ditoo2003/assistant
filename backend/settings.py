@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'authorization.apps.AuthorizationConfig'
 
     # 第三方应用
-    # 'django_crontab'
+    'django_crontab'
 ]
 
 MIDDLEWARE = [
@@ -93,7 +93,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'backend',
         'USER': 'root',
-        'PASSWORD': 'Carlife2016C',
+        'PASSWORD': 'bc0ecc96a6d8f7e4',
         'HOST': 'localhost',
         'PORT': '3306'
     }
@@ -221,6 +221,6 @@ CACHES = {
     }
 }
 
-# CRONJOBS = [
-#     ('*/1 * * * *', 'cron.jobs.demo')
-# ]
+CRONJOBS = [
+    ('*/1 * * * *', 'cron.jobs.demo')
+]
