@@ -15,7 +15,7 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-USE_PROXY = False
+USE_PROXY = True
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -26,7 +26,7 @@ SECRET_KEY = 'u_knrmvv2e+tdm2=^k4@a#qs2h=ss-9ivmdwh0&wi4)qk)qzl@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*',]
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -249,3 +249,6 @@ EMAIL_FROM = 'ditoo2003@qq.com'
 
 # 统计字段分割符
 STATISTICS_SPLIT_FLAG = '||'
+
+# HA Request Timeout in second.
+HA_TIMEOUT = 1

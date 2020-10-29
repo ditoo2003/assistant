@@ -7,12 +7,18 @@
 # @Desc           :
 
 
+import os
+import django
 import json
 import time
 import requests
 
 from utils import proxy
 
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
+django.setup()
+
+from thirdparty.weather import CommonWeatherResult
 
 
 def constellation(cons_name):
@@ -83,7 +89,7 @@ def history_today():
     return result
 
 
-def weather(cityname):
+def weather(cityname, timeout=1):
     '''
     :param cityname: 城市名字
     :return: 返回实况天气
@@ -93,18 +99,23 @@ def weather(cityname):
     params = 'cityname=%s&key=%s' % (cityname, key)
     url = api + '?' + params
     print(url)
-    response = requests.get(url=url, proxies=proxy.proxy())
+    response = requests.get(url=url, proxies=proxy.proxy(), timeout=1)
     data = json.loads(response.text)
     print(data)
     result = data.get('result')
     sk = result.get('sk')
-    response = {}
-    response['temperature'] = sk.get('temp')
-    response['wind_direction'] = sk.get('wind_direction')
-    response['wind_strength'] = sk.get('wind_strength')
-    response['humidity'] = sk.get('humidity')  # 湿度
-    response['time'] = sk.get('time')
+    response = CommonWeatherResult()
+    # 温度
+    response.temperature = sk.get('temp')
+    # 风向
+    response.wind_direction = sk.get('wind_direction')
+    # 风强度
+    response.wind_strength = sk.get('wind_strength')
+    # 湿度
+    response.humidity = sk.get('humidity')
+    response.time = sk.get('time')
     return response
 
 if __name__ == '__main__':
     data = weather('深圳')
+    print(data)

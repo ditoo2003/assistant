@@ -13,8 +13,10 @@ from django.http import HttpResponse, JsonResponse
 import utils
 from utils.response import CommonResponseMixin, ReturnCode
 
+from backend import settings
 from authorization.models import User
 from thirdparty import juhe
+from thirdparty.weather.common import WeatherAPIProxy
 
 
 class WeatherView(View, CommonResponseMixin):
@@ -27,7 +29,9 @@ class WeatherView(View, CommonResponseMixin):
             user = User.objects.filter(open_id=open_id)[0]
             cities = json.loads(user.focus_cities)
             for city in cities:
-                result = juhe.weather(city.get('city'))
+                # result = juhe.weather(city.get('city'))
+                result = WeatherAPIProxy.ha_request(city.get('city'),
+                                                    timeout=settings.HA_TIMEOUT)
                 result['city_info'] = city
                 data.append(result)
 
