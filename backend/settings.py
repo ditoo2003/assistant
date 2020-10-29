@@ -221,6 +221,6 @@ CACHES = {
     }
 }
 
-CRONJOBS = [
-    ('*/1 * * * *', 'cron.jobs.demo')
-]
+# CRONJOBS = [
+#     ('*/1 * * * *', 'cron.jobs.demo')
+# ]
