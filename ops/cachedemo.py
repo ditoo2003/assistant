@@ -3,8 +3,8 @@
 
 
 import os
-import time
 import django
+import time
 
 from django.core.cache import cache
 
@@ -13,18 +13,10 @@ django.setup()
 
 
 def basic_use():
-    s = 'Hello World, Hello Django Cache.'
-    cache.set('key', s)
-    cache_result = cache.get('key')
-    print(cache_result)
-    s2 = 'Hello World, Hello Django Timeout Cache.'
-    cache.set('key2', s2, 5)
-    cache_result = cache.get('key2')
-    print(cache_result)
+    cache.set('key', 'value', 5)
+    print(cache.get('key'))
     time.sleep(5)
-    cache_result = cache.get('key2')
-    print(cache_result)
-    pass
+    print(cache.get('key'))
 
 
 if __name__ == '__main__':

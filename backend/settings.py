@@ -52,6 +52,8 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     # 'django.middleware.csrf.CsrfViewMiddleware',
+    # 'ops.middlewaredemo.TestMiddleware',
+    'module.middleware.StatisticsMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -125,9 +127,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-hans'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -159,9 +161,13 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
     'formatters': {# 日志格式
-       'standard': {
+        'standard': {
             'format': '%(asctime)s [%(threadName)s:%(thread)d] '
-                      '[%(pathname)s:%(funcName)s:%(lineno)d] [%(levelname)s]- %(message)s'}
+                      '[%(pathname)s:%(funcName)s:%(lineno)d] [%(levelname)s]- %(message)s'
+        },
+        'simple': {
+            'format': '%(asctime)s %(message)s'
+        }
     },
     'filters': {# 过滤器
         'test':{
@@ -177,7 +183,7 @@ LOGGING = {
             'level':'DEBUG',
             'class':'logging.handlers.RotatingFileHandler',
             'filename': os.path.join(LOG_DIR,'error.log'),#日志输出文件
-            'maxBytes':1024*1024*5,#文件大小
+            'maxBytes':1024*1024*1,#文件大小
             'backupCount': 5,#备份份数
             'formatter':'standard',#使用哪种formatters日志格式
             'encoding': 'utf8',
@@ -186,16 +192,25 @@ LOGGING = {
             'level':'DEBUG',
             'class':'logging.handlers.RotatingFileHandler',
             'filename': os.path.join(LOG_DIR,'service.log'),# 日志输出文件
-            'maxBytes':1024*1024*5,#文件大小
+            'maxBytes':1024*1024*1,#文件大小
             'backupCount': 5,#备份份数
             'formatter':'standard',#使用哪种formatters日志格式
-                'encoding': 'utf8',
+            'encoding': 'utf8',
         },
         'console_handler':{# 输出到控制台
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
             'formatter': 'standard',
         },
+        'statistics_handler':{
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(LOG_DIR,'statistics.log'),
+            'maxBytes':1024*1024*5,
+            'backupCount': 5,
+            'formatter':'simple',
+            'encoding': 'utf8',
+        }
     },
     'loggers': {# logging管理器
         'django': {
@@ -203,10 +218,34 @@ LOGGING = {
             'handlers': ['console_handler', 'file_handler'],
             'filters': ['test'],
             'level': 'DEBUG'
+        },
+        'statistics': {
+            'handlers': ['statistics_handler'],
+            'level': 'DEBUG'
         }
     }
 }
 
+# django_crontab config
 CRONJOBS = [
-    ('*/1 * * * *', 'cron.jobs.demo')
+    # ('*/1 * * * *', 'cron.jobs.demo')
+    ('*/1 * * * *', 'cron.jobs.report_by_mail')
 ]
+
+# Email config
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# QQ邮箱 SMTP 服务器地址
+EMAIL_HOST = 'smtp.qq.com'
+# 端口
+EMAIL_PORT = 465
+# 发送邮件的邮箱
+EMAIL_HOST_USER = 'ditoo2003@qq.com'
+# 在邮箱中设置的客户端授权密码
+EMAIL_HOST_PASSWORD = 'ltcvswlgjkbyhgda'
+# 开启TLS
+EMAIL_USE_TLS = True
+# 收件人看到的发件人
+EMAIL_FROM = 'ditoo2003@qq.com'
+
+# 统计字段分割符
+STATISTICS_SPLIT_FLAG = '||'
