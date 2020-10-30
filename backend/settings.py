@@ -28,7 +28,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -43,7 +42,7 @@ INSTALLED_APPS = [
     'apis.apps.ApisConfig',
     'authorization.apps.AuthorizationConfig',
 
-    # 第三方应用
+    # 第三方应用，定时任务
     'django_crontab'
 ]
 
@@ -53,7 +52,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     # 'django.middleware.csrf.CsrfViewMiddleware',
     # 'ops.middlewaredemo.TestMiddleware',
-    'module.middleware.StatisticsMiddleware',
+    'module.middleware.StatisticsMiddleware',   # 自定义的运维统计中间件
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -79,10 +78,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-
 
 
 '''
@@ -104,7 +101,6 @@ DATABASES = {
     }
 }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 
@@ -123,7 +119,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
@@ -137,7 +132,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
@@ -150,7 +144,7 @@ IMAGES_DIR = os.path.join(RESOURCES_DIR, 'images')
 WX_APP_SECRET = 'c1d5c56f6c9443a6c7b4e5e759d04276'
 
 # session超时时间
-SESSION_COOKIE_AGE = 60*60*24*1
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 1
 
 # logging日志配置
 LOG_DIR = os.path.join(BASE_DIR, 'log')
@@ -160,7 +154,7 @@ if not os.path.exists(LOG_DIR):
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
-    'formatters': {# 日志格式
+    'formatters': {  # 日志格式
         'standard': {
             'format': '%(asctime)s [%(threadName)s:%(thread)d] '
                       '[%(pathname)s:%(funcName)s:%(lineno)d] [%(levelname)s]- %(message)s'
@@ -169,50 +163,50 @@ LOGGING = {
             'format': '%(asctime)s %(message)s'
         }
     },
-    'filters': {# 过滤器
-        'test':{
+    'filters': {  # 过滤器
+        'test': {
             '()': 'ops.TestFilter'
         }
     },
-    'handlers': {# 处理器
+    'handlers': {  # 处理器
         'null': {
             'level': 'DEBUG',
             'class': 'logging.NullHandler',
         },
-        'error_handler': {# error内容输出到另外的文件
-            'level':'DEBUG',
-            'class':'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(LOG_DIR,'error.log'),#日志输出文件
-            'maxBytes':1024*1024*1,#文件大小
-            'backupCount': 5,#备份份数
-            'formatter':'standard',#使用哪种formatters日志格式
+        'error_handler': {  # error内容输出到另外的文件
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(LOG_DIR, 'error.log'),  # 日志输出文件
+            'maxBytes': 1024 * 1024 * 1,  # 文件大小
+            'backupCount': 5,  # 备份份数
+            'formatter': 'standard',  # 使用哪种formatters日志格式
             'encoding': 'utf8',
         },
-        'file_handler': {# 记录到日志文件(需要创建对应的目录，否则会出错)
-            'level':'DEBUG',
-            'class':'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(LOG_DIR,'service.log'),# 日志输出文件
-            'maxBytes':1024*1024*1,#文件大小
-            'backupCount': 5,#备份份数
-            'formatter':'standard',#使用哪种formatters日志格式
+        'file_handler': {  # 记录到日志文件(需要创建对应的目录，否则会出错)
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(LOG_DIR, 'service.log'),  # 日志输出文件
+            'maxBytes': 1024 * 1024 * 1,  # 文件大小
+            'backupCount': 5,  # 备份份数
+            'formatter': 'standard',  # 使用哪种formatters日志格式
             'encoding': 'utf8',
         },
-        'console_handler':{# 输出到控制台
+        'console_handler': {  # 输出到控制台
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
             'formatter': 'standard',
         },
-        'statistics_handler':{
-            'level':'DEBUG',
-            'class':'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(LOG_DIR,'statistics.log'),
-            'maxBytes':1024*1024*5,
+        'statistics_handler': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(LOG_DIR, 'statistics.log'),
+            'maxBytes': 1024 * 1024 * 5,
             'backupCount': 5,
-            'formatter':'simple',
+            'formatter': 'simple',
             'encoding': 'utf8',
         }
     },
-    'loggers': {# logging管理器
+    'loggers': {  # logging管理器
         'django': {
             # 'handlers': ['console_handler', 'file_handler', 'error_handler'],
             'handlers': ['console_handler', 'file_handler'],
@@ -252,3 +246,5 @@ STATISTICS_SPLIT_FLAG = '||'
 
 # HA Request Timeout in second.
 HA_TIMEOUT = 1
+
+# Application key

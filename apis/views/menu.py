@@ -36,9 +36,7 @@ def get_menu(request):
     all_app = []
     for app in query_set:
         all_app.append(app.to_dict())
-    print(all_app)
     response = utils.response.wrap_json_response(data=all_app)
-    print(response)
     return JsonResponse(data=response, safe=False)
 
 
@@ -68,14 +66,9 @@ class UserMenu(View, CommonResponseMixin):
         post_menu = json.loads(request.body.decode('utf-8'))
         post_menu = post_menu.get('data')
         focus_menu = []
-        print(post_menu)
         for item in post_menu:
-            print(item)
-            print(item.get('appid'))
             item = App.objects.get(appid=item.get('appid'))
-            print(item)
             focus_menu.append(item)
-        print(focus_menu)
         user.menu.set(focus_menu)
         user.save()
         response = CommonResponseMixin.wrap_json_response(code=ReturnCode.SUCCESS)

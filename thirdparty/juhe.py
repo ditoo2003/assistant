@@ -31,7 +31,6 @@ def constellation(cons_name):
     types = ('today', 'tomorrow', 'week', 'month', 'year')
     params = 'consName=%s&type=%s&key=%s' % (cons_name, types[0], key)
     url = api + '?' + params
-    print(url)
     response = requests.get(url=url, proxies=proxy.proxy())
     data = json.loads(response.text)
     return {
@@ -51,7 +50,6 @@ def stock(market, code):
     api = 'http://web.juhe.cn:8080/finance/stock/hs'
     params = 'gid=%s&key=%s' % (market + code, key)
     url = api + '?' + params
-    print(url)
     response = requests.get(url=url, proxies=proxy.proxy())
     data = json.loads(response.text)
     data = data.get('result')[0].get('data')
@@ -98,10 +96,8 @@ def weather(cityname, timeout=1):
     api = 'http://v.juhe.cn/weather/index'
     params = 'cityname=%s&key=%s' % (cityname, key)
     url = api + '?' + params
-    print(url)
     response = requests.get(url=url, proxies=proxy.proxy(), timeout=1)
     data = json.loads(response.text)
-    print(data)
     result = data.get('result')
     sk = result.get('sk')
     response = CommonWeatherResult()
@@ -115,6 +111,7 @@ def weather(cityname, timeout=1):
     response.humidity = sk.get('humidity')
     response.time = sk.get('time')
     return response
+
 
 if __name__ == '__main__':
     data = weather('深圳')

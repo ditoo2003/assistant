@@ -33,8 +33,6 @@ def __authorize_by_code(request):
     app_id = post_data.get('appId').strip()
     nickname = post_data.get('nickname').strip()
     code = post_data.get('code').strip()
-    print(code)
-    print(app_id)
     if not (app_id and code):
         response['result_code'] = ReturnCode.BROKEN_AUTHORIZED_DATA
         response['message'] = 'authorized failed. need entire authorization data.'
@@ -42,7 +40,6 @@ def __authorize_by_code(request):
     try:
         data = c2s(app_id, code)
     except Exception as e:
-        print(e)
         response['result_code'] = ReturnCode.FAILED
         response['message'] = 'authorized failed.'
         return JsonResponse(response, safe=False)
@@ -54,7 +51,6 @@ def __authorize_by_code(request):
     request.session['open_id'] = open_id
     request.session['is_authorized'] = True
 
-    print(open_id)
     # User.objects.get(open_id=open_id) # 不要用get，用get查询如果结果数量 !=1 就会抛异常
     # 如果用户不存在，则新建用户
     if not User.objects.filter(open_id=open_id):
@@ -68,7 +64,6 @@ def __authorize_by_code(request):
 
 # 判断是否已经登陆
 def get_status(request):
-    print('call get_status function...')
     if already_authorized(request):
         data = {"is_authorized": 1}
     else:
@@ -103,11 +98,9 @@ class UserView(View, CommonResponseMixin):
         data = {}
         data['open_id'] = user.open_id
         data['focus'] = {}
-        print(user.focus_cities)
         data['focus']['city'] = json.loads(user.focus_cities)
         data['focus']['constellation'] = json.loads(user.focus_constellations)
         data['focus']['stock'] = json.loads(user.focus_stocks)
-        print('data: ', data)
         response = CommonResponseMixin.wrap_json_response(code=ReturnCode.SUCCESS, data=data)
         return JsonResponse(response, safe=False)
 

@@ -3,6 +3,7 @@
 
 import datetime
 
+
 class CommonWeatherResult:
     def __init__(self):
         # 温度

@@ -22,5 +22,4 @@ def code2session(appid, code):
     url = API + '?' + params
     response = requests.get(url=url, proxies=proxy.proxy())
     data = json.loads(response.text)
-    print(data)
     return data

@@ -42,10 +42,11 @@ class WeatherView(View, CommonResponseMixin):
         data = []
         received_body = request.body.decode('utf-8')
         received_body = json.loads(received_body)
-        print(received_body)
         cities = received_body.get('cities')
         for city in cities:
-            result = juhe.weather(city.get('city'))
+            # result = juhe.weather(city.get('city'))
+            result = WeatherAPIProxy.ha_request(city.get('city'),
+                                                timeout=settings.HA_TIMEOUT)
             result['city_info'] = city
             data.append(result)
         response_data = self.wrap_json_response(data)

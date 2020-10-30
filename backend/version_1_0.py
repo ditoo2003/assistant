@@ -1,6 +1,5 @@
 #!/usr/bin/python                                                                  
-# -*-encoding=utf8 -*-                                                             
-# @Author         : Liu Dongqiang
+# -*-encoding=utf8 -*-
 # @Email          : imooc@foxmail.com
 # @Created at     : 2018/11/2
 # @Filename       : version_1_0.py

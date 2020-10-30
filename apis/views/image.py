@@ -32,7 +32,6 @@ class ImageView(View, CommonResponseMixin):
     def get(self, request):
         md5 = request.GET.get('md5')
         imgfile = os.path.join(settings.IMAGES_DIR, md5 + '.jpg')
-        print(imgfile)
         if os.path.exists(imgfile):
             data = open(imgfile, 'rb').read()
             # return HttpResponse(data, content_type='image/jpg')
@@ -45,12 +44,9 @@ class ImageView(View, CommonResponseMixin):
         files = request.FILES
         response_data = []
         for key, uploaded_file in files.items():
-            print(key)
-            print(uploaded_file)
             content = uploaded_file.read()
             md5 = hashlib.md5(content).hexdigest()
             path = os.path.join(settings.IMAGES_DIR, md5 + '.jpg')
-            print(md5)
             with open(path, 'wb+') as f:
                 f.write(content)
             response_data.append({

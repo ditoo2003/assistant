@@ -4,3 +4,4 @@ pyyaml
 python3-devel
 mysqlclient
 pycrypto
+django-crontab
