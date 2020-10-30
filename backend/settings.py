@@ -26,7 +26,7 @@ SECRET_KEY = 'u_knrmvv2e+tdm2=^k4@a#qs2h=ss-9ivmdwh0&wi4)qk)qzl@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*',]
 
 # Application definition
 
@@ -248,3 +248,6 @@ STATISTICS_SPLIT_FLAG = '||'
 HA_TIMEOUT = 1
 
 # Application key
+constellation_key = '2f5a888b87fe20ca6feeabc8254202a0'
+weather_key = '624d65e596e470f40de47d026f4019e7'
+stock_key = 'f887b09847c9bcde9801ca7aaa86513e'

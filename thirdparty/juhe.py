@@ -19,6 +19,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
 django.setup()
 
 from thirdparty.weather import CommonWeatherResult
+from backend import settings
 
 
 def constellation(cons_name):
@@ -26,7 +27,8 @@ def constellation(cons_name):
     :param cons_name: 星座名字
     :return: json 今天运势
     '''
-    key = '2f5a888b87fe20ca6feeabc8254202a0'
+    # key = '2f5a888b87fe20ca6feeabc8254202a0'
+    key = settings.constellation_key
     api = 'http://web.juhe.cn:8080/constellation/getAll'
     types = ('today', 'tomorrow', 'week', 'month', 'year')
     params = 'consName=%s&type=%s&key=%s' % (cons_name, types[0], key)
@@ -46,7 +48,8 @@ def stock(market, code):
     :param code: 股票编号
     :return:
     '''
-    key = 'f887b09847c9bcde9801ca7aaa86513e'
+    # key = 'f887b09847c9bcde9801ca7aaa86513e'
+    key = settings.stock_key
     api = 'http://web.juhe.cn:8080/finance/stock/hs'
     params = 'gid=%s&key=%s' % (market + code, key)
     url = api + '?' + params
@@ -92,7 +95,8 @@ def weather(cityname, timeout=1):
     :param cityname: 城市名字
     :return: 返回实况天气
     '''
-    key = '624d65e596e470f40de47d026f4019e7'
+    # key = '624d65e596e470f40de47d026f4019e7'
+    key = settings.weather_key
     api = 'http://v.juhe.cn/weather/index'
     params = 'cityname=%s&key=%s' % (cityname, key)
     url = api + '?' + params
