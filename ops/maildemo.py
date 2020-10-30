@@ -34,4 +34,4 @@ def send_mail_native():
     server.close()
 
 if __name__ == '__main__':
-    send_mail()
+    send_mail_native()
