@@ -141,7 +141,7 @@ RESOURCES_DIR = os.path.join(BASE_DIR, 'resources')
 IMAGES_DIR = os.path.join(RESOURCES_DIR, 'images')
 
 # app secret 由开发者在微信官网开发者页面生成的
-WX_APP_SECRET = 'c1d5c56f6c9443a6c7b4e5e759d04276'
+WX_APP_SECRET = '07238db7c0677b47836449fdfff43801'
 
 # session超时时间
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 1
