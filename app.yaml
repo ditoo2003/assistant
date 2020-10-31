@@ -34,3 +34,10 @@ published:
       publish_date: 2018-10-06
       url: /service/constellation
       desc: this is a constellation app.
+  - app:
+      category: life
+      application: today
+      name: 历史上的今天
+      publish_date: 2020-10-31
+      url: /service/today
+      desc: this is a today app.

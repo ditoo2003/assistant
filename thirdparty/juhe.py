@@ -72,7 +72,7 @@ def stock(market, code):
 
 
 def history_today():
-    key = '6c6b318d983b6b4ac8cc5cda0da92155'
+    key = '3286e0c2a73fac741aace5dbff8e0872'
     api = 'http://api.juheapi.com/japi/toh'
     month = time.localtime().tm_mon
     day = time.localtime().tm_mday
